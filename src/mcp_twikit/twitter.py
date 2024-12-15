@@ -81,6 +81,36 @@ async def get_user_tweets(username: str, tweet_type: str = 'Tweets', count: int 
         logger.error(f"Failed to get user tweets: {e}")
         return f"Failed to get user tweets: {e}"
 
+@mcp.tool()
+async def get_timeline(count: int = 20) -> str:
+    """Get tweets from your home timeline (For You).
+    
+    Args:
+        count: Number of tweets to retrieve (default 20)
+    """
+    try:
+        client = await get_twitter_client()
+        tweets = await client.get_timeline(count=count)
+        return convert_tweets_to_markdown(tweets)
+    except Exception as e:
+        logger.error(f"Failed to get timeline: {e}")
+        return f"Failed to get timeline: {e}"
+
+@mcp.tool() 
+async def get_latest_timeline(count: int = 20) -> str:
+    """Get tweets from your home timeline (Following).
+    
+    Args:
+        count: Number of tweets to retrieve (default 20)
+    """
+    try:
+        client = await get_twitter_client()
+        tweets = await client.get_latest_timeline(count=count)
+        return convert_tweets_to_markdown(tweets)
+    except Exception as e:
+        logger.error(f"Failed to get latest timeline: {e}")
+        return f"Failed to get latest timeline: {e}"
+
 
 def convert_tweets_to_markdown(tweets: list[twikit.Tweet]) -> str:
     markdown_tweets = []
