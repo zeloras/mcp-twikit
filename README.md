@@ -26,36 +26,103 @@ Using [mcp-client-cli](https://github.com/adhikasp/mcp-client-cli)
 ### Comparing sentiments across different twitter accounts
 
 ```
-$ llm compare 10 latest tweet from @IndiHomeCare, @di_cbn, @BiznetHome, @ID_MyRepublic. 
-What are interesting promo or news coming from them?
+$ llm compare 20 latest tweet directed @IndiHomeCare, @di_cbn, @BiznetHome, @ID_MyRepublic. What are people sentiment to the product? Do 1 search for each account
 
-Based on the latest tweets, here's a summary of interesting promos and news:
+I'll help you analyze the latest tweets for these internet service providers in Indonesia to understand the public sentiment. I'll use the search_twitter function for each account.
 
-1. MyRepublic (@ID_MyRepublic):
-   - Recent Promo: "Double Date 12.12" offer
-     * 100 Mbps internet for Rp275,000 per person per month
-     * Ideal for sharing with a partner, friend, or family
-   - Expansion News: Launched service in Manado and 11 other cities
-   - Offering internet speeds up to 500 Mbps
+Tool Calls:
+  search_twitter
+  Args:
+    query: to:IndiHomeCare
+    count: 20
+    sort_by: Latest
 
-2. IndiHome (@IndiHomeCare):
-   - Mostly customer service interactions
-   - Mentions of billing adjustments starting from December
-   - No specific promos visible in recent tweets
+Tool Calls:
+  search_twitter
+  Args:
+    query: to:di_cbn
+    count: 20
+    sort_by: Latest
 
-3. CBN (@di_cbn):
-   - Primarily focused on customer support
-   - Responding to individual customer issues via DM
-   - No visible promos or major news
+Tool Calls:
+  search_twitter
+  Args:
+    query: to:BiznetHome
+    count: 20
+    sort_by: Latest
 
-4. Biznet (@BiznetHome):
-   - Primarily handling customer support
-   - Asking customers to send direct messages for network issue investigations
-   - No specific promos or news highlighted
+Tool Calls:
+  search_twitter
+  Args:
+    query: to:ID_MyRepublic
+    count: 20
+    sort_by: Latest
 
-The most interesting content comes from MyRepublic, with their "Double Date 12.12" promo and expansion to new cities. The other providers seem to be primarily focused on customer support and resolving individual customer issues.
+Sentiment Analysis Summary:
 
-Would you like me to dive deeper into any of these tweets or provide more context about the promos?
+1. IndiHomeCare:
+- Predominantly Negative Sentiment
+- Key Issues:
+  - Unstable internet connection
+  - Slow response times
+  - Intermittent service disruptions
+  - Long waiting times for customer support
+- Specific Complaints:
+  - Network instability
+  - Lagging internet
+  - Unresolved technical issues
+  - Lack of timely communication
+
+2. CBN (di_cbn):
+- Mostly Negative Sentiment
+- Key Issues:
+  - Prolonged internet outages (some reporting 1-2 days of no service)
+  - Slow customer support response
+  - Lack of clear communication about service disruptions
+- Specific Complaints:
+  - LOS (Line of Sight) issues
+  - No timely resolution of technical problems
+  - Delayed email and support responses
+
+3. BiznetHome:
+- Strongly Negative Sentiment
+- Key Issues:
+  - Frequent network interruptions
+  - Slow internet speeds
+  - Poor customer support responsiveness
+- Specific Complaints:
+  - Packet loss
+  - Inconsistent connection
+  - Long download times
+  - Unresolved technical issues
+
+4. MyRepublic (ID_MyRepublic):
+- Extremely Negative Sentiment
+- Key Issues:
+  - Severe and prolonged service disruptions
+  - Complete internet outages
+  - Inability to access online services and games
+  - Extremely poor customer support
+- Specific Complaints:
+  - Multi-day service interruptions
+  - Inability to access websites and online games
+  - Missed technician appointments
+  - Lack of compensation or clear communication
+
+Overall Sentiment Ranking (from Bad to Worst):
+1. IndiHomeCare (Bad)
+2. CBN (Worse)
+3. BiznetHome (Very Bad)
+4. MyRepublic (Extremely Bad)
+
+Common Themes Across Providers:
+- Poor network stability
+- Slow customer support response
+- Lack of transparent communication
+- Prolonged service interruptions
+- Unresolved technical issues
+
+Recommendation: These Indonesian internet service providers are experiencing significant customer satisfaction issues. Customers are frustrated with unreliable services, poor technical support, and lack of timely problem resolution.
 ```
 
 ### Getting tweets from your home timeline
