@@ -1,6 +1,6 @@
 # MCP-Twikit
 
-A Model Context Protocol (MCP) server for Twitter search.
+A Model Context Protocol (MCP) server for interacting with Twitter.
 
 ## Installation
 
