@@ -25,7 +25,7 @@ RATE_LIMIT_WINDOW = 15 * 60  # 15 minutes in seconds
 async def get_twitter_client() -> twikit.Client:
     """Initialize and return an authenticated Twitter client."""
     client = twikit.Client('en-US', user_agent=USER_AGENT)
-    
+
     if COOKIES_PATH.exists():
         client.load_cookies(COOKIES_PATH)
     else:
@@ -40,7 +40,7 @@ async def get_twitter_client() -> twikit.Client:
             raise
         COOKIES_PATH.parent.mkdir(parents=True, exist_ok=True)
         client.save_cookies(COOKIES_PATH)
-    
+
     return client
 
 def check_rate_limit(endpoint: str) -> bool:
@@ -48,10 +48,10 @@ def check_rate_limit(endpoint: str) -> bool:
     now = time.time()
     if endpoint not in RATE_LIMITS:
         RATE_LIMITS[endpoint] = []
-    
+
     # Remove old timestamps
     RATE_LIMITS[endpoint] = [t for t in RATE_LIMITS[endpoint] if now - t < RATE_LIMIT_WINDOW]
-    
+
     # Check limits based on endpoint
     if endpoint == 'tweet':
         return len(RATE_LIMITS[endpoint]) < 300  # 300 tweets per 15 minutes
@@ -80,7 +80,7 @@ async def get_user_tweets(username: str, tweet_type: str = 'Tweets', count: int 
         user = await client.get_user_by_screen_name(username)
         if not user:
             return f"Could not find user {username}"
-            
+
         tweets = await client.get_user_tweets(
             user_id=user.id,
             tweet_type=tweet_type,
@@ -102,7 +102,7 @@ async def get_timeline(count: int = 20) -> str:
         logger.error(f"Failed to get timeline: {e}")
         return f"Failed to get timeline: {e}"
 
-@mcp.tool() 
+@mcp.tool()
 async def get_latest_timeline(count: int = 20) -> str:
     """Get tweets from your home timeline (Following)."""
     try:
@@ -125,22 +125,22 @@ async def post_tweet(
     try:
         if not check_rate_limit('tweet'):
             return "Rate limit exceeded for tweets. Please wait before posting again."
-            
+
         client = await get_twitter_client()
-        
+
         # Handle tags by converting to mentions
         if tags:
             mentions = ' '.join(f"@{tag.lstrip('@')}" for tag in tags)
-            text = f"{text}
-{mentions}"
-        
+            text = f"""{text}
+{mentions}"""
+
         # Upload media if provided
         media_ids = []
         if media_paths:
             for path in media_paths:
                 media_id = await client.upload_media(path, wait_for_completion=True)
                 media_ids.append(media_id)
-        
+
         # Create the tweet
         tweet = await client.create_tweet(
             text=text,
@@ -170,13 +170,13 @@ async def send_dm(user_id: str, message: str, media_path: Optional[str] = None) 
     try:
         if not check_rate_limit('dm'):
             return "Rate limit exceeded for DMs. Please wait before sending again."
-            
+
         client = await get_twitter_client()
-        
+
         media_id = None
         if media_path:
             media_id = await client.upload_media(media_path, wait_for_completion=True)
-        
+
         await client.send_dm(
             user_id=user_id,
             text=message,
