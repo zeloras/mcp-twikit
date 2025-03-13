@@ -15,7 +15,7 @@ httpx_logger.setLevel(logging.WARNING)
 USERNAME = os.getenv('TWITTER_USERNAME')
 EMAIL = os.getenv('TWITTER_EMAIL')
 PASSWORD = os.getenv('TWITTER_PASSWORD')
-USER_AGENT = os.getenv('USER_AGENT')
+USER_AGENT = os.getenv('USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
 COOKIES_PATH = Path.home() / '.mcp-twikit' / 'cookies.json'
 
 # Rate limit tracking
@@ -203,6 +203,7 @@ def convert_tweets_to_markdown(tweets) -> str:
     """Convert a list of tweets to markdown format."""
     result = []
     for tweet in tweets:
+        logger.info(f"Processing tweet {tweet}")
         result.append(f"### @{tweet.user.screen_name}")
         result.append(f"**{tweet.created_at}**")
         result.append(tweet.text)
